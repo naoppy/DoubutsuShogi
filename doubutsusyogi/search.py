@@ -2,7 +2,7 @@ import pickle
 from collections import deque
 from typing import Dict
 
-from doubutsusyogi.board import get_first_board, get_next_boards
+from doubutsusyogi.board import board_flip, get_first_board, get_next_boards
 
 
 def search():
@@ -16,6 +16,7 @@ def search():
         print(len(queue))
         board = queue.popleft()
         for next in get_next_boards(board):
+            next = board_flip(next)
             if next not in visited_dict:
                 visited_dict[next] = True
                 queue.append(next)

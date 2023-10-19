@@ -16,6 +16,8 @@ y
   Player A
 """
 
+from typing import Set
+
 EMPTY = 0
 A_HIYOKO = 1
 A_ZOU = 2
@@ -53,6 +55,30 @@ def B_kirin(board: int) -> int:
     return (board >> 54) & 0b110000
 
 
+def A_hiyoko_inc(board: int) -> int:
+    return board + (1 << 48)
+
+
+def A_hiyoko_dec(board: int) -> int:
+    return board - (1 << 48)
+
+
+def A_zou_inc(board: int) -> int:
+    return board + (1 << 50)
+
+
+def A_zou_dec(board: int) -> int:
+    return board - (1 << 50)
+
+
+def A_kirin_inc(board: int) -> int:
+    return board + (1 << 52)
+
+
+def A_kirin_dec(board: int) -> int:
+    return board - (1 << 52)
+
+
 def get_board_cell(board: int, x: int, y: int) -> int:
     return (board >> (4 * (x + 3 * y))) & 0b1111
 
@@ -69,13 +95,52 @@ def set_board_celli(board: int, i: int, piece: int) -> int:
     return board | (piece << (4 * i))
 
 
-def get_next_boards(board: int) -> list[int]:
+def get_next_boards(board: int) -> Set[int]:
     """プレイヤーAの手番で、boardから次の局面を生成する
 
     Returns:
         list[int]: 次の局面(プレイヤーBの手番) のリスト
     """
-    pass
+    ret: Set[int] = []
+    for i in range(12):
+        piece = get_board_celli(board, i)
+        if piece == EMPTY:
+            ret += get_next_boards_empty(board, i)
+        if piece == A_HIYOKO:
+            ret += get_next_boards_hiyoko(board, i)
+        elif piece == A_ZOU:
+            ret += get_next_boards_zou(board, i)
+        elif piece == A_KIRIN:
+            ret += get_next_boards_kirin(board, i)
+        elif piece == A_LION:
+            ret += get_next_boards_lion(board, i)
+        elif piece == A_NIWATORI:
+            ret += get_next_boards_niwatori(board, i)
+    return ret
+
+
+def get_next_boards_empty(board: int, i: int) -> Set[int]:
+    """Aがiの場所に駒を置くときの局面を考える"""
+    ret = set()
+    if A_hiyoko(board) > 0:
+        new_board = set_board_celli(board, i, A_HIYOKO)
+        new_board = A_hiyoko_dec(new_board)
+        ret.add(new_board)
+    if A_zou(board) > 0:
+        new_board = set_board_celli(board, i, A_ZOU)
+        new_board = A_zou_dec(new_board)
+        ret.add(new_board)
+    if A_kirin(board) > 0:
+        new_board = set_board_celli(board, i, A_KIRIN)
+        new_board = A_kirin_dec(new_board)
+        ret.add(new_board)
+    return ret
+
+
+def get_next_boards_hiyoko(board: int, i: int) -> Set[int]:
+    """Aがiの場所のひよこを動かすときの局面を考える"""
+    ret = set()
+    return ret
 
 
 def board_flip(board: int) -> int:
