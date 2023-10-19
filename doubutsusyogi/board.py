@@ -79,7 +79,7 @@ def get_first_board() -> int:
 
 
 def board_str(board: int) -> str:
-    ret = "-----------\n"
+    ret = "\n-----------\n"
     for y in range(4):
         for x in range(3):
             ret += "|"
@@ -89,7 +89,7 @@ def board_str(board: int) -> str:
             elif piece == A_HIYOKO:
                 ret += "Ha"
             elif piece == A_ZOU:
-                ret += "Za "
+                ret += "Za"
             elif piece == A_KIRIN:
                 ret += "Ka"
             elif piece == A_LION:
@@ -108,7 +108,6 @@ def board_str(board: int) -> str:
                 ret += "Nb"
             else:
                 raise Exception("Invalid piece")
-            ret += "|"
-        ret += "\n"
+        ret += "|\n"
         ret += "----------\n"
     return ret
