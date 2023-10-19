@@ -1,4 +1,5 @@
 SRC_DIR = ./doubutsusyogi
+TEST_DIR = ./tests
 
 fmt:
 	# isort
@@ -10,3 +11,5 @@ fmt:
 lint:
 	ruff check ${SRC_DIR}
 	mypy ${SRC_DIR}
+test:
+	pytest ${TEST_DIR}

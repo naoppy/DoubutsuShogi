@@ -13,7 +13,7 @@ y
 """
 
 EMPTY = 0
-A_HIYOKO_ = 1
+A_HIYOKO = 1
 A_ZOU = 2
 A_KIRIN = 3
 A_LION = 4
@@ -25,33 +25,54 @@ B_LION = 9
 B_NIWATORI = 10
 
 
-def A_hiyoko(board: int):
+def A_hiyoko(board: int) -> int:
     return (board >> 48) & 0b11
 
 
-def A_zou(board: int):
+def A_zou(board: int) -> int:
     return (board >> 48) & 0b1100
 
 
-def A_kirin(board: int):
+def A_kirin(board: int) -> int:
     return (board >> 48) & 0b110000
 
 
-def B_hiyoko(board: int):
+def B_hiyoko(board: int) -> int:
     return (board >> 54) & 0b11
 
 
-def B_zou(board: int):
+def B_zou(board: int) -> int:
     return (board >> 54) & 0b1100
 
 
-def B_kirin(board: int):
+def B_kirin(board: int) -> int:
     return (board >> 54) & 0b110000
 
 
-def get_board(board: int, x: int, y: int):
+def get_board(board: int, x: int, y: int) -> int:
     return (board >> (4 * (x + 3 * y))) & 0b1111
 
 
-def set_board(board: int, x: int, y: int, piece: int):
+def set_board(board: int, x: int, y: int, piece: int) -> int:
     return board | (piece << (4 * (x + 3 * y)))
+
+
+def get_first_board() -> int:
+    board_array = [
+        B_KIRIN,
+        B_LION,
+        B_ZOU,
+        EMPTY,
+        B_HIYOKO,
+        EMPTY,
+        EMPTY,
+        A_HIYOKO,
+        EMPTY,
+        A_ZOU,
+        A_LION,
+        A_KIRIN,
+    ]
+    ret = 0
+    for i in range(12):
+        ret |= (board_array[i] & 0b1111) << (4 * i)
+    return ret
