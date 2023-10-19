@@ -3,13 +3,17 @@
 4x12=48bitで盤面が表現される
 各持ち駒は、Aがひよこを何個(0~2)持っているか(2bit)
 をぞう、きりんでも表現することで、6bit、Bも同様で12bitで表現可能
+A0 B0 C0 ... C3, Aのひよこ個数, Aのぞう個数, Aのきりん個数, Bのひよこ個数, Bのぞう個数, Bのきりん個数
 結果、60bitで局面が表現される。
-        x
-A0 B0 C0
-A1 B1 C1
-A2 B2 C2
-A3 B3 C3
+
+  Player B
+    0  1  2 x
+0  A0 B0 C0
+1  A1 B1 C1
+2  A2 B2 C2
+3  A3 B3 C3
 y
+  Player A
 """
 
 EMPTY = 0
@@ -49,12 +53,45 @@ def B_kirin(board: int) -> int:
     return (board >> 54) & 0b110000
 
 
-def get_board(board: int, x: int, y: int) -> int:
+def get_board_cell(board: int, x: int, y: int) -> int:
     return (board >> (4 * (x + 3 * y))) & 0b1111
 
 
-def set_board(board: int, x: int, y: int, piece: int) -> int:
+def get_board_celli(board: int, i: int) -> int:
+    return (board >> (4 * i)) & 0b1111
+
+
+def set_board_cell(board: int, x: int, y: int, piece: int) -> int:
     return board | (piece << (4 * (x + 3 * y)))
+
+
+def set_board_celli(board: int, i: int, piece: int) -> int:
+    return board | (piece << (4 * i))
+
+
+def get_next_boards(board: int) -> list[int]:
+    """プレイヤーAの手番で、boardから次の局面を生成する
+
+    Returns:
+        list[int]: 次の局面(プレイヤーBの手番) のリスト
+    """
+    pass
+
+
+def board_flip(board: int) -> int:
+    """プレイヤーを入れ替える(盤面を180度回転する)"""
+    ret: int = 0
+    for i in range(12):
+        val = get_board_celli(board, i)
+        if val == EMPTY:
+            ret = set_board_celli(ret, i, EMPTY)
+        elif val < B_HIYOKO:
+            ret = set_board_celli(ret, i, val + 5)
+        else:
+            ret = set_board_celli(ret, i, val - 5)
+    ret |= ((board >> 48) & 0b111) << (48 + 3)
+    ret |= ((board >> 51) & 0b111) << (48 + 0)
+    return ret
 
 
 def get_first_board() -> int:
@@ -83,7 +120,7 @@ def board_str(board: int) -> str:
     for y in range(4):
         for x in range(3):
             ret += "|"
-            piece = get_board(board, x, y)
+            piece = get_board_cell(board, x, y)
             if piece == EMPTY:
                 ret += "  "
             elif piece == A_HIYOKO:

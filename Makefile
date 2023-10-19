@@ -3,13 +3,13 @@ TEST_DIR = ./tests
 
 fmt:
 	# isort
-	ruff check ${SRC_DIR} --select I --fix-only --exit-zero
+	ruff check ${SRC_DIR} ${TEST_DIR} --select I --fix-only --exit-zero
 	# black
-	black ${SRC_DIR}
+	black ${SRC_DIR} ${TEST_DIR}
 	# ruff
-	ruff check ${SRC_DIR} --fix --exit-zero
+	ruff check ${SRC_DIR} ${TEST_DIR} --fix --exit-zero
 lint:
-	ruff check ${SRC_DIR}
-	mypy ${SRC_DIR}
+	ruff check ${SRC_DIR} ${TEST_DIR}
+	mypy ${SRC_DIR} ${TEST_DIR}
 test:
 	pytest ${TEST_DIR}
