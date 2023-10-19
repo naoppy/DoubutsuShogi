@@ -76,3 +76,39 @@ def get_first_board() -> int:
     for i in range(12):
         ret |= (board_array[i] & 0b1111) << (4 * i)
     return ret
+
+
+def board_str(board: int) -> str:
+    ret = "-----------\n"
+    for y in range(4):
+        for x in range(3):
+            ret += "|"
+            piece = get_board(board, x, y)
+            if piece == EMPTY:
+                ret += "  "
+            elif piece == A_HIYOKO:
+                ret += "Ha"
+            elif piece == A_ZOU:
+                ret += "Za "
+            elif piece == A_KIRIN:
+                ret += "Ka"
+            elif piece == A_LION:
+                ret += "La"
+            elif piece == A_NIWATORI:
+                ret += "Na"
+            elif piece == B_HIYOKO:
+                ret += "Hb"
+            elif piece == B_ZOU:
+                ret += "Zb"
+            elif piece == B_KIRIN:
+                ret += "Kb"
+            elif piece == B_LION:
+                ret += "Lb"
+            elif piece == B_NIWATORI:
+                ret += "Nb"
+            else:
+                raise Exception("Invalid piece")
+            ret += "|"
+        ret += "\n"
+        ret += "----------\n"
+    return ret

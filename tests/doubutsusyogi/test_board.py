@@ -14,3 +14,9 @@ def test_first_board_valid():
     assert get_board(board, 0, 1) == EMPTY
     assert get_board(board, 1, 3) == A_LION
     assert get_board(board, 2, 3) == A_KIRIN
+
+def test_str():
+    board = get_first_board()
+    str_board = board_str(board)
+    print(str_board)
+    assert len(str_board) > 12 * 3
