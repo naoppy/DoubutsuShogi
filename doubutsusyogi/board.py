@@ -211,7 +211,7 @@ def get_next_boards_lion(board: int, i: int) -> List[int]:
 def get_next_boards_niwatori(board: int, i: int) -> List[int]:
     ret = []
     x, y = i % 3, i // 3
-    for dx, dy in [(1, 1), (1, -1), (1, 0), (-1, 0), (0, 1), (0, -1)]:
+    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, 1)]:
         if in_board(x + dx, y + dy):
             next_pos = x + dx + 3 * (y + dy)
             new_board = move(board, i, next_pos)
@@ -275,8 +275,12 @@ def board_normalize(board: int) -> int:
     for y in range(4):
         ret = set_board_celli(ret, 0 + 3 * y, get_board_cell(board, 2, y))
         ret = set_board_celli(ret, 2 + 3 * y, get_board_cell(board, 0, y))
-    return ret
-    
+    # 数値表現で小さいほうを採用
+    if ret >= board:
+        return board
+    else:
+        return ret
+
 
 def get_first_board() -> int:
     board_array = [
