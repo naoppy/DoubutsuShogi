@@ -26,7 +26,7 @@ def search():
                 if not get_gameover(next):
                     queue.append(next)
         # dist += 1
-    with open("visited_dict.pickle", "wb") as f:
+    with open("visited_dict.pkl", "wb") as f:
         pickle.dump(visited_dict, f)
 
 

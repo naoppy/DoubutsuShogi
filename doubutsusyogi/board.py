@@ -35,27 +35,27 @@ INVALID_BOARD = 0xFFFFFFFFFFFFFFFF
 
 
 def A_hiyoko(board: int) -> int:
-    return (board >> 48) & 0b11
+    return (board >> (48 + 2 * 0)) & 0b11
 
 
 def A_zou(board: int) -> int:
-    return (board >> 48) & 0b1100
+    return (board >> (48 + 2 * 1)) & 0b11
 
 
 def A_kirin(board: int) -> int:
-    return (board >> 48) & 0b110000
+    return (board >> (48 + 2 * 2)) & 0b11
 
 
 def B_hiyoko(board: int) -> int:
-    return (board >> 54) & 0b11
+    return (board >> (54 + 2 * 0)) & 0b11
 
 
 def B_zou(board: int) -> int:
-    return (board >> 54) & 0b1100
+    return (board >> (54 + 2 * 1)) & 0b11
 
 
 def B_kirin(board: int) -> int:
-    return (board >> 54) & 0b110000
+    return (board >> (54 + 2 * 2)) & 0b11
 
 
 def A_hiyoko_inc(board: int) -> int:
@@ -158,6 +158,10 @@ def get_next_boards_hiyoko(board: int, i: int) -> List[int]:
     new_board = move(board, i, next_pos)
     if new_board != INVALID_BOARD:
         ret.append(new_board)
+        # にわとりになるパターン
+        if next_pos < 3:
+            new_niwatori_board = set_board_celli(new_board, next_pos, A_NIWATORI)
+            ret.append(new_niwatori_board)
     return ret
 
 
