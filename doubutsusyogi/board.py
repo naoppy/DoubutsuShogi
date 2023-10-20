@@ -257,7 +257,7 @@ def move(board, move_from_i, move_to_i) -> int:
 
 def board_flip(board: int) -> int:
     """プレイヤーを入れ替える(盤面を180度回転する)"""
-    ret: int = 0
+    ret: int = board
     for i in range(12):
         val = get_board_celli(board, i)
         if val == EMPTY:
@@ -266,10 +266,17 @@ def board_flip(board: int) -> int:
             ret = set_board_celli(ret, i, val + 5)
         else:
             ret = set_board_celli(ret, i, val - 5)
-    ret |= ((board >> 48) & 0b111) << (48 + 3)
-    ret |= ((board >> 51) & 0b111) << (48 + 0)
     return ret
 
+
+def board_normalize(board: int) -> int:
+    """左右の対称性を利用して、盤面の表現を正規化する"""
+    ret: int = board
+    for y in range(4):
+        ret = set_board_celli(ret, 0 + 3 * y, get_board_cell(board, 2, y))
+        ret = set_board_celli(ret, 2 + 3 * y, get_board_cell(board, 0, y))
+    return ret
+    
 
 def get_first_board() -> int:
     board_array = [
