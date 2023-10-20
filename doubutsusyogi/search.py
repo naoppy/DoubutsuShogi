@@ -15,7 +15,7 @@ def search():
     first_board = get_first_board()
     visited_dict[first_board] = True
     queue = deque([first_board])
-    dist: int = 0
+    dist: int = 0  # noqa: F841
     while len(queue) != 0:
         # print(len(queue))
         board = queue.popleft()

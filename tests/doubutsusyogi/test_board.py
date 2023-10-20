@@ -1,6 +1,8 @@
 from doubutsusyogi.board import (
+    A_HIYOKO,
     A_KIRIN,
     A_LION,
+    B_HIYOKO,
     B_KIRIN,
     B_LION,
     B_ZOU,
@@ -15,6 +17,7 @@ from doubutsusyogi.board import (
     board_str,
     get_board_cell,
     get_first_board,
+    move,
 )
 
 
@@ -29,6 +32,7 @@ def test_first_board_valid():
     assert get_board_cell(board, 0, 0) == B_KIRIN
     assert get_board_cell(board, 1, 0) == B_LION
     assert get_board_cell(board, 2, 0) == B_ZOU
+    assert get_board_cell(board, 1, 1) == B_HIYOKO
     assert get_board_cell(board, 0, 1) == EMPTY
     assert get_board_cell(board, 1, 3) == A_LION
     assert get_board_cell(board, 2, 3) == A_KIRIN
@@ -46,3 +50,16 @@ def test_str():
     str_board = board_str(board)
     print(str_board)
     assert len(str_board) > 12 * 3
+
+
+def test_get_new_piece():
+    board = get_first_board()
+    print(board_str(board))
+    assert get_board_cell(board, 1, 1) == B_HIYOKO
+    board = move(board, 1 + 3 * 2, 1 + 3 * 1)
+    print(board_str(board))
+    assert get_board_cell(board, 1, 1) == A_HIYOKO
+    assert get_board_cell(board, 1, 2) == EMPTY
+    assert A_hiyoko(board) == 1
+    assert A_zou(board) == 0
+    assert A_kirin(board) == 0

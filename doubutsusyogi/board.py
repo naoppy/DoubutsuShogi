@@ -99,10 +99,12 @@ def get_board_celli(board: int, i: int) -> int:
 
 
 def set_board_cell(board: int, x: int, y: int, piece: int) -> int:
+    board = board & ~(0b1111 << (4 * (x + 3 * y)))
     return board | (piece << (4 * (x + 3 * y)))
 
 
 def set_board_celli(board: int, i: int, piece: int) -> int:
+    board = board & ~(0b1111 << (4 * i))
     return board | (piece << (4 * i))
 
 
@@ -158,10 +160,6 @@ def get_next_boards_hiyoko(board: int, i: int) -> List[int]:
     new_board = move(board, i, next_pos)
     if new_board != INVALID_BOARD:
         ret.append(new_board)
-        # にわとりになるパターン
-        if next_pos < 3:
-            new_niwatori_board = set_board_celli(new_board, next_pos, A_NIWATORI)
-            ret.append(new_niwatori_board)
     return ret
 
 
@@ -238,6 +236,9 @@ def move(board, move_from_i, move_to_i) -> int:
     # トライで勝ちフラグ
     if from_piece == A_LION and move_to_i < 3:
         new_board = set_gameover(new_board)
+    # にわとりになる
+    if from_piece == A_HIYOKO and move_to_i < 3:
+        new_board = set_board_celli(new_board, move_to_i, A_NIWATORI)
     if next_piece == EMPTY:
         return new_board
     elif next_piece == B_HIYOKO or next_piece == B_NIWATORI:
