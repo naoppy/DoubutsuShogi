@@ -211,7 +211,7 @@ def get_next_boards_lion(board: int, i: int) -> List[int]:
 def get_next_boards_niwatori(board: int, i: int) -> List[int]:
     ret = []
     x, y = i % 3, i // 3
-    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, 1)]:
+    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1), (1, -1), (-1, -1)]:
         if in_board(x + dx, y + dy):
             next_pos = x + dx + 3 * (y + dy)
             new_board = move(board, i, next_pos)
