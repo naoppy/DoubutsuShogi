@@ -33,6 +33,7 @@ def test_first_board_valid():
     assert get_board_cell(board, 1, 0) == B_LION
     assert get_board_cell(board, 2, 0) == B_ZOU
     assert get_board_cell(board, 1, 1) == B_HIYOKO
+    assert get_board_cell(board, 1, 2) == A_HIYOKO
     assert get_board_cell(board, 0, 1) == EMPTY
     assert get_board_cell(board, 1, 3) == A_LION
     assert get_board_cell(board, 2, 3) == A_KIRIN
@@ -41,6 +42,8 @@ def test_first_board_valid():
 def test_board_flip():
     board = get_first_board()
     flip_board = board_flip(board)
+    assert get_board_cell(flip_board, 1, 1) == B_HIYOKO
+    assert get_board_cell(flip_board, 1, 2) == A_HIYOKO
     flip_flip_board = board_flip(flip_board)
     assert board == flip_flip_board
 

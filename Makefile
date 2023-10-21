@@ -1,5 +1,5 @@
-SRC_DIR = ./doubutsusyogi
-TEST_DIR = ./tests
+SRC_DIR := ./doubutsusyogi
+TEST_DIR := ./tests
 
 fmt:
 	# isort

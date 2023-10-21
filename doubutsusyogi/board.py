@@ -256,16 +256,19 @@ def move(board, move_from_i, move_to_i) -> int:
 
 
 def board_flip(board: int) -> int:
-    """プレイヤーを入れ替える(盤面を180度回転する)"""
+    """プレイヤーを入れ替える(盤面を180度回転する)
+    敵味方を入れ替え、盤面を180度回転する
+    """
     ret: int = board
     for i in range(12):
+        to_i = 11 - i
         val = get_board_celli(board, i)
         if val == EMPTY:
-            ret = set_board_celli(ret, i, EMPTY)
+            ret = set_board_celli(ret, to_i, EMPTY)
         elif val < B_HIYOKO:
-            ret = set_board_celli(ret, i, val + 5)
+            ret = set_board_celli(ret, to_i, val + 5)
         else:
-            ret = set_board_celli(ret, i, val - 5)
+            ret = set_board_celli(ret, to_i, val - 5)
     return ret
 
 
