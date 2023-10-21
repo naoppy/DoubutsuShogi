@@ -8,8 +8,10 @@ from doubutsusyogi.board import (
     B_ZOU,
     EMPTY,
     A_hiyoko,
+    A_hiyoko_inc,
     A_kirin,
     A_zou,
+    A_zou_inc,
     B_hiyoko,
     B_kirin,
     B_zou,
@@ -41,11 +43,18 @@ def test_first_board_valid():
 
 def test_board_flip():
     board = get_first_board()
+    board = A_zou_inc(A_zou_inc(A_hiyoko_inc(board)))
     flip_board = board_flip(board)
+
     assert get_board_cell(flip_board, 1, 1) == B_HIYOKO
     assert get_board_cell(flip_board, 1, 2) == A_HIYOKO
+    assert A_hiyoko(flip_board) == 0
+    assert A_zou(flip_board) == 0
+
     flip_flip_board = board_flip(flip_board)
     assert board == flip_flip_board
+    assert A_hiyoko(flip_flip_board) == 1
+    assert A_zou(flip_flip_board) == 2
 
 
 def test_str():
