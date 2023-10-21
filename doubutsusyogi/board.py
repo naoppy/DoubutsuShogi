@@ -269,6 +269,12 @@ def board_flip(board: int) -> int:
             ret = set_board_celli(ret, to_i, val + 5)
         else:
             ret = set_board_celli(ret, to_i, val - 5)
+    # 持っている駒の数も入れ替える
+    a_hiyoko_zou_kirin = (ret >> 48) & 0b111111
+    b_hiyoko_zou_kirin = (ret >> 54) & 0b111111
+    ret = ret & ~(0b111111111111 << 48)
+    ret |= b_hiyoko_zou_kirin << 48
+    ret |= a_hiyoko_zou_kirin << 54
     return ret
 
 
